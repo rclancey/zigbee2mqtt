@@ -40,7 +40,7 @@ type Reporting struct {
 
 type Endpoint struct {
 	Bindings []Binding `json:"bindings"`
-	Clusters []Cluster `json:"clusters"`
+	Clusters Cluster `json:"clusters"`
 	ConfiguredReportings []Reporting `json:"configured_reportings"`
 	Scenes []Scene `json:"scenes"`
 }
