@@ -338,6 +338,7 @@ func NewZigbee(client mqtt.Client) *Zigbee {
 		for i := range msg {
 			dev := msg[i]
 			if !z.deviceSubs[dev.FriendlyName] {
+				log.Printf("subscribing to device %s (%s)", dev.FriendlyName, dev.IEEEAddress)
 				z.client.Subscribe(fmt.Sprintf("zigbee2mqtt/%s", dev.FriendlyName), 0, Handler(func(topic string, msg map[string]any) error {
 					z.updateChan <- DeviceUpdate{dev, msg}
 					return nil
@@ -378,6 +379,10 @@ func NewZigbee(client mqtt.Client) *Zigbee {
 		return nil
 	}))
 	return z
+}
+
+func (z *Zigbee) Updates() <-chan DeviceUpdate {
+	return z.updateChan
 }
 
 func (z *Zigbee) SetOption(device string, obj any) error {
