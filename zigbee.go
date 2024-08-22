@@ -256,6 +256,7 @@ func Handler[T any](handler TypedMessageHandler[T]) mqtt.MessageHandler {
 		err := json.Unmarshal(message.Payload(), &obj)
 		if err != nil {
 			log.Printf("error unmarshaling %s message into %T: %s", message.Topic(), obj, err)
+			log.Println(string(message.Payload()))
 			return
 		}
 		err = handler(message.Topic(), obj)
