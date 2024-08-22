@@ -341,6 +341,7 @@ func NewZigbee(client mqtt.Client) *Zigbee {
 			if !z.deviceSubs[dev.FriendlyName] {
 				log.Printf("subscribing to device %s (%s)", dev.FriendlyName, dev.IEEEAddress)
 				z.client.Subscribe(fmt.Sprintf("zigbee2mqtt/%s", dev.FriendlyName), 0, Handler(func(topic string, msg map[string]any) error {
+					log.Printf("got update for %s: %#v", dev.FriendlyName, msg)
 					z.updateChan <- DeviceUpdate{dev, msg}
 					return nil
 				}))
